@@ -1,2 +1,4 @@
 # Automatas_Hash01
-hacer una automata que genere una tabla hash
+Crear el algoritmo con el uso de tablas hash1
+y automatas celulares
+
