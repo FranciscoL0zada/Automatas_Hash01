@@ -1,16 +1,24 @@
-%% Crear un algorimo de Automata celular por medio de una llave de HASH1
+%%ALGOTIRMO DE RECUPERACION DE IMAGEN
+%%ENTRADA DE MSI
 clc; clear; close all;
-[X,Map]=imread("LENA1.BMP");
-figure(1),subplot(2,3,1),imshow(X),title("IMAGEN ORIGINAL");
+[X,Map]=imread("MSI.BMP");
+figure(1),subplot(2,3,1),imshow(X),title("IMAGEN MSI");
+
+%%%%IMAGEN DE ENTRADA
+[I,Map]=imread("LENA1.BMP");
+figure(1),subplot(2,3,2),imshow(I),title("IMAGEN ENTRADA");
 
 
-%%%SE REALIZA LA BINARIZACION DE LA IMAGEN 
-X_Bin=imbinarize(X);
-figure(1),subplot(2,3,2),imshow(X_Bin),title("IMAGEN BINARIZADA");
-t=size(X_Bin);
+I_Bin=imbinarize(I);
+figure(1),subplot(2,3,3),imshow(I_Bin),title("IMAGEN BINARIZADA");
+
+t=size(I_Bin);
+
+
+
 %Se obtiene la llave hash1 de la imagen original
 
-llave =llave_HASH_1(X);
+llave =llave_HASH_1(I);
 
 t_llave=size(llave);
 %% una llave has esta compuesta por 160 bits los cuales se reparten en dos
@@ -51,38 +59,30 @@ end
 rng(semilla);
 A=rand(t)>0.65;
 
-figure(1),subplot(2,3,3),imshow(A),title("LLAVE K-HASH1");
+figure(1),subplot(2,3,4),imshow(A),title("LLAVE K-HASH1");
 
 
-%%se realiza el recorrido del automata celular dentro de la imagen
-%%binarizada
+%%PROCESO DE XOR CON MSI Y MATRIZ HASH-1
+
+I_AUTOMATA=xor(A,X);
+
+figure(1),subplot(2,3,5),imshow(I_AUTOMATA),title('IMAGEN AUTOMATA');
+
 K=11;
 %a=512;
 aux1=zeros(1,512*512);
-aux1(:)=X_Bin(:);
+aux1(:)=I_AUTOMATA(:);
 % for j=2:a
  we=aux1(:);
     for i=1:K
-        we = encoder_R15_Circular_list(we);
+        we = decoder_R85_Circular_list(we);
     end
-% aux1(j,:)=we;
-% end
-
 aux= reshape(we(1,:),[t(1),t(2)]);
-figure(1),subplot(2,3,4),imshow(aux),title('IMAGEN AUTOMATAS');
-
-b=psnr(uint8(X_Bin),uint8(aux));
+figure(1),subplot(2,3,6),imshow(aux),title('IMAGEN RECUPERADA');
 
 
-%% Creamos Master SHARE
-%Se realiza una xor entre las dos imagenes resultantes
+b=psnr(uint8(I_Bin),uint8(aux))
 
-M_S=xor(A,aux);
-figure(1),subplot(2,3,5),imshow(M_S),title('IMAGEN MASTER SHARE');
-
-%%SE GUARDA MSI
-
-imwrite(M_S,'MSI.bmp');
-
+  
 
 
