@@ -2,18 +2,25 @@
 %%ENTRADA DE MSI
 clc; clear; close all;
 [X,Map]=imread("MSI.BMP");
-figure(1),subplot(2,3,1),imshow(X),title("IMAGEN MSI");
+figure(1),subplot(3,3,1),imshow(X),title("IMAGEN MSI");
 
 %%%%IMAGEN DE ENTRADA
 [I,Map]=imread("LENA1.BMP");
-figure(1),subplot(2,3,2),imshow(I),title("IMAGEN ENTRADA");
+figure(1),subplot(3,3,4),imshow(I),title("IMAGEN ENTRADA");
 
 
 I_Bin=imbinarize(I);
-figure(1),subplot(2,3,3),imshow(I_Bin),title("IMAGEN BINARIZADA");
+figure(1),subplot(3,3,5),imshow(I_Bin),title("IMAGEN BINARIZADA");
 
 t=size(I_Bin);
 
+%%%SE REALIZA LA BINARIZACION DE LA IMAGEN 
+[W,Map]=imread("LENA1.BMP");
+figure(1),subplot(3,3,2),imshow(W),title("IMAGEN ORIGINAL");
+t=size(X_Bin);
+
+W_Bin=imbinarize(W);
+figure(1),subplot(3,3,3),imshow(W_Bin),title("IMAGEN ORIGINAL BINARIZADA");
 
 
 %Se obtiene la llave hash1 de la imagen original
@@ -59,14 +66,14 @@ end
 rng(semilla);
 A=rand(t)>0.65;
 
-figure(1),subplot(2,3,4),imshow(A),title("LLAVE K-HASH1");
+figure(1),subplot(3,3,6),imshow(A),title("LLAVE K-HASH1");
 
 
 %%PROCESO DE XOR CON MSI Y MATRIZ HASH-1
 
 I_AUTOMATA=xor(A,X);
 
-figure(1),subplot(2,3,5),imshow(I_AUTOMATA),title('IMAGEN AUTOMATA');
+figure(1),subplot(3,3,7),imshow(I_AUTOMATA),title('IMAGEN AUTOMATA');
 
 K=11;
 %a=512;
@@ -78,7 +85,7 @@ aux1(:)=I_AUTOMATA(:);
         we = decoder_R85_Circular_list(we);
     end
 aux= reshape(we(1,:),[t(1),t(2)]);
-figure(1),subplot(2,3,6),imshow(aux),title('IMAGEN RECUPERADA');
+figure(1),subplot(3,3,8),imshow(aux),title('IMAGEN RECUPERADA');
 
 
 b=psnr(uint8(I_Bin),uint8(aux))

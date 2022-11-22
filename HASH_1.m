@@ -39,6 +39,9 @@ end
 
 %% dentro de los dos arreglos se realiza un XOR exclusiva para obtener una resultante 
 V_X=xor(V1,V2);
+
+%crea la semilla apartir de 4 bits de izquierda a derecha, creando una
+%
 semilla=0;
 for i=1:4:77
     semilla=semilla+bin2dec(num2str(V_X(i:i+3)));
