@@ -1,8 +1,3 @@
-
-
-
-
-
 function llave=llave_HASH_1(image)
     %image = imread('lena.jpg'); % Read in the im|age 
     [m, n, ~] = size(image);       % Gives rows, columns, ignores number of channels

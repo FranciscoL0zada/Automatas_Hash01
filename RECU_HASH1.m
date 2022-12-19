@@ -1,7 +1,7 @@
 %%ALGOTIRMO DE RECUPERACION DE IMAGEN
 %%ENTRADA DE MSI
 clc; clear; close all;
-[X,Map]=imread("MSI.BMP");
+[X,Map]=imread("MSI.bmp");
 figure(1),subplot(3,3,1),imshow(X),title("IMAGEN MSI");
 
 %%%%IMAGEN DE ENTRADA
@@ -9,6 +9,23 @@ figure(1),subplot(3,3,1),imshow(X),title("IMAGEN MSI");
 figure(1),subplot(3,3,4),imshow(I),title("IMAGEN ENTRADA");
 
 
+s=size(I);
+np=numel(s);
+
+if np==2 
+    disp('Imagen de 2 planos');
+else
+    disp('Imagen de 3 planos');
+end 
+
+
+%%SE REALIZA LA BINARIZACION DE LA IMAGEN 
+%%si la imagen es en dos planos 
+if np>2
+    I=rgb2gray(I);
+    %%figure(1),subplot(3,3,ps),imshow(I),title("IMAGEN Blanco y Negro");
+
+end
 I_Bin=imbinarize(I);
 figure(1),subplot(3,3,5),imshow(I_Bin),title("IMAGEN BINARIZADA");
 
@@ -17,7 +34,7 @@ t=size(I_Bin);
 %%%SE REALIZA LA BINARIZACION DE LA IMAGEN 
 [W,Map]=imread("LENA1.BMP");
 figure(1),subplot(3,3,2),imshow(W),title("IMAGEN ORIGINAL");
-t=size(X_Bin);
+t=size(I_Bin);
 
 W_Bin=imbinarize(W);
 figure(1),subplot(3,3,3),imshow(W_Bin),title("IMAGEN ORIGINAL BINARIZADA");
@@ -70,10 +87,10 @@ figure(1),subplot(3,3,6),imshow(A),title("LLAVE K-HASH1");
 
 
 %%PROCESO DE XOR CON MSI Y MATRIZ HASH-1
+A_(1,:)=A(:);
+I_AUTOMATA=xor(A_,X);
 
-I_AUTOMATA=xor(A,X);
-
-figure(1),subplot(3,3,7),imshow(I_AUTOMATA),title('IMAGEN AUTOMATA');
+figure(1),subplot(3,3,7),imshow(I_AUTOMATA),title('IMAGEN HASH-1 XOR MSI');
 
 K=11;
 %a=512;
@@ -85,10 +102,17 @@ aux1(:)=I_AUTOMATA(:);
         we = decoder_R85_Circular_list(we);
     end
 aux= reshape(we(1,:),[t(1),t(2)]);
-figure(1),subplot(3,3,8),imshow(aux),title('IMAGEN RECUPERADA');
+figure(1),subplot(3,3,8),imshow(aux),title('IMAGEN RECUPERADA DESPUES DE AUTOMATA');
 
 
 b=psnr(uint8(I_Bin),uint8(aux))
+
+if b==inf
+    disp('Imagen sin alteraciones');
+else
+    disp('Imagen con alteraciones');
+
+end 
 
   
 
