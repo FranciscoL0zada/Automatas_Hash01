@@ -110,4 +110,4 @@ MS1=uint8(MS1*255);
 %%M_S=uint8(M_S);
 figure(1),subplot(3,3,ps),imshow(MS1),title('IMAGEN MASTER SHARE');
 %%SE GUARDA MSI
-imwrite(M_S,'MSI.bmp');
+imwrite(M_S,'MSI.BMP');

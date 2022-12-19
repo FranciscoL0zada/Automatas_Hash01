@@ -1,7 +1,9 @@
 %%ALGOTIRMO DE RECUPERACION DE IMAGEN
 %%ENTRADA DE MSI
 clc; clear; close all;
-[X,Map]=imread("MSI.bmp");
+[X,Map]=imread("MSI.BMP");
+
+X=reshape(X,[512,512]);
 figure(1),subplot(3,3,1),imshow(X),title("IMAGEN MSI");
 
 %%%%IMAGEN DE ENTRADA
@@ -82,15 +84,16 @@ end
 
 rng(semilla);
 A=rand(t)>0.65;
-
 figure(1),subplot(3,3,6),imshow(A),title("LLAVE K-HASH1");
 
 
 %%PROCESO DE XOR CON MSI Y MATRIZ HASH-1
 A_(1,:)=A(:);
-I_AUTOMATA=xor(A_,X);
+X_(1,:)=X(:);
+I_AUTOMATA=xor(A_,X_);
 
-figure(1),subplot(3,3,7),imshow(I_AUTOMATA),title('IMAGEN HASH-1 XOR MSI');
+I_AUTOMATA_=reshape(I_AUTOMATA,[512,512]);
+figure(1),subplot(3,3,7),imshow(I_AUTOMATA_),title('IMAGEN HASH-1 XOR MSI');
 
 K=11;
 %a=512;
